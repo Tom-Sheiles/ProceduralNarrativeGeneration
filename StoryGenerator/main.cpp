@@ -3,27 +3,22 @@
 #include <string>
 #include <cstdlib>
 #include <time.h>
-
+#include "Random.h"
 
 int continentNumber = 0; // put this into include class as well
 
-int randomInt(int min, int max)
-{
-	return rand() % max + min;
-}
-
-float randomFloat(float min, float max)
-{
-	return min + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (max - min)));
-}
+enum class CreatureType {Humanoid, Monster, Ancient, Elemental, Animal};
 
 
-class Kingdom {
-
+class Place {
+	// should have subtypes such as city
 };
 
 
-class CreatureType {
+class Species {
+public:
+	std::string speciesName;
+	CreatureType type;
 
 };
 
@@ -35,11 +30,17 @@ public:
 	Continent() {
 		continentName = ++continentNumber;
 	}
+
+private:
+	Place* places;
+
 };
+
 
 class Planet {
 
 public:
+
 	Planet()
 	{
 		planetName = "Azeroth"; // This should be random later
@@ -60,12 +61,20 @@ public:
 		printf("and %d.\n", continents[numberOfContinents - 1].continentName);
 	}
 
+	// Generates Ancients mostly dragons and elementals
+	void generatePreHistory()
+	{
+
+		
+	}
 
 private:
 	std::string planetName;
 	int numberOfContinents;
 	Continent* continents;
+	Species* species;
 
+	int numberOfAncients;
 };
 
 
@@ -75,5 +84,6 @@ int main()
 
 	Planet mainPlanet;
 	mainPlanet.printWorldInfo();
-
 }
+
+
