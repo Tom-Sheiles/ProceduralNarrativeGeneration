@@ -1,0 +1,6 @@
+.vs/
+Debug/
+*.exe
+*.vcxproj
+*.filters
+*.user
