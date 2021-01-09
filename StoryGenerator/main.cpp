@@ -15,10 +15,10 @@ int main()
 {
 	srand(time(NULL));
 
-	Planet mainPlanet;
+	Planet mainPlanet(2, 8);
 	generatePlanet(&mainPlanet);
 
-	mainPlanet.printWorldInfo();
+	//mainPlanet.printWorldInfo();
 }
 
 

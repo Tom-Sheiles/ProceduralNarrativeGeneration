@@ -6,6 +6,7 @@
 #include "Util.h"
 
 
+
 struct Species {
 	std::string name;
 	CreatureType type;
@@ -22,4 +23,13 @@ struct Species {
 std::vector<Species> g_Species = {
 	{"Dragon", CreatureType::Ancient},
 	{"Elemental", CreatureType::Ancient},
+	{"Human", CreatureType::Humanoid}
 };
+
+void printSpeciesVector(const std::vector<Species> v)
+{
+	for (int i = 0; i < v.size(); i++)
+	{
+		std::cout << "ID: " << v[i].speciesID << " NAME: " << v[i].name << "\n";
+	}
+}

@@ -5,6 +5,7 @@
 #include "Random.h"
 #include "GlobalVariables.h"
 #include "Species.h"
+#include "Util.h"
 #pragma once
 
 class Place {
@@ -19,11 +20,29 @@ public:
 		continentName = ++continentNumber;
 	}
 
-	void addLocalSpecies(Species species, RandomRange numberOfSpecies)
+	void addLocalSpecies(std::vector<Species> species, RandomRange numberOfSpecies)
 	{
+		// Ancient Species
+
 		int r_numberOfSpecies = randomInt(numberOfSpecies);
 
-		for()
+		for (int i = 0; i < r_numberOfSpecies; i++)
+		{
+			int s = randomInt(RandomRange(0, species.size()));
+			localSpecies.push_back(species[s]);
+		}
+
+		// magic
+		int wellChance = randomInt(RandomRange(0, 3));
+		int wellNumber = 0;
+
+		for (int i = 0; i < wellChance; i++)
+		{
+			if (randomPercent(0.6))
+				wellNumber++;
+		}
+
+		std::cout << continentName << " has " << r_numberOfSpecies << " ancient species and " << wellNumber << " magic sources\n";
 	}
 
 private:
@@ -61,14 +80,16 @@ public:
 
 		std::vector<Species> ancientSpecies;
 
+		// find all ancient species
 		for (int i = 0; i < g_Species.size(); i++)
 		{
 			if (g_Species[i].type == CreatureType::Ancient)
 				ancientSpecies.push_back(g_Species[i]);
 		}
 
+		// randomly select which continents have them
 		for (int i = 0; i < continentNumber; i++) {
-
+			continents[i].addLocalSpecies(ancientSpecies, RandomRange(0, 3));
 		}
 	}
 

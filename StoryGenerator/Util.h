@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream>
+#include <string>
+#include <vector>
 
 #define HASHA 5409
 #define HASHB 76963
@@ -14,4 +17,11 @@ unsigned util_HashString(const char* s)
 		s++;
 	}
 	return h % HASHC;
+}
+
+template<typename T> void printVector(std::vector<T> v)
+{
+	for (int i = 0; i < v.size(); i++) {
+		std::cout << v[i] << "\n";
+	}
 }
