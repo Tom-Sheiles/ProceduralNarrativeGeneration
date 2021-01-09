@@ -1,9 +1,18 @@
 #pragma once
 #include <cstdlib>
 
-int randomInt(int min, int max)
+struct RandomRange { 
+	int min; int max; 
+	RandomRange(int min, int max)
+	{
+		this->min = min;
+		this->max = max;
+	}
+};
+
+int randomInt(RandomRange range)
 {
-	return rand() % max + min;
+	return rand() % range.max + range.min;
 }
 
 float randomFloat(float min, float max)
