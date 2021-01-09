@@ -5,21 +5,12 @@
 #include "Planet.h"
 
 
-void generatePlanet(Planet* planet)
-{
-	planet->generatePreHistory();
-}
-
-
 int main()
 {
 	srand(time(NULL));
 
-	Planet mainPlanet(2, 8);
-	generatePlanet(&mainPlanet);
+	Planet mainPlanet(2, 4);
+	mainPlanet.generatePreHistory();
 
-	//mainPlanet.printWorldInfo();
+	mainPlanet.printWorldInfo();
 }
-
-
-

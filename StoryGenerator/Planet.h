@@ -18,7 +18,9 @@ public:
 
 	Continent() {
 		continentName = ++continentNumber;
+		this->wellNumber = 0;
 	}
+
 
 	void addLocalSpecies(std::vector<Species> species, RandomRange numberOfSpecies)
 	{
@@ -29,7 +31,7 @@ public:
 		for (int i = 0; i < r_numberOfSpecies; i++)
 		{
 			int s = randomInt(RandomRange(0, species.size()));
-			localSpecies.push_back(species[s]);
+			ancientSpecies.push_back(species[s]);
 		}
 
 		// magic
@@ -42,11 +44,42 @@ public:
 				wellNumber++;
 		}
 
-		std::cout << continentName << " has " << r_numberOfSpecies << " ancient species and " << wellNumber << " magic sources\n";
+		this->wellNumber = wellNumber;
 	}
 
+	// TODO: Finish functionality for place generation that allows for random towns, cities and villages to form on continents.
+	//       After this, work on the actual game loop of the simulation that allows civilizations to take actions as well as a
+	//       system of reputation between civs that influence the opinions of each faction.
+	//       
+	//       Long term goal should be a decision based system that activly tries to generate plot lines and controlls narrative pacing
+	//       by steering groups towards conflicts and maximizes understandability by reducing the chance that multiple large scale stories
+	//       can happen at the same time.
+
+	void addPlace(std::vector <Species> species, RandomRange numberOfPlaces)
+	{
+
+	}
+
+
+	std::string s_AncientInfo()
+	{
+		std::string s = "";
+		
+		if (ancientSpecies.size() > 0) {
+			s += "Ancients: ";
+			for (int i = 0; i < ancientSpecies.size(); i++)
+			{
+				s += ancientSpecies[i].name + " ";
+			}
+			if (wellNumber > 0) s += " has a magical energy permiating it";
+		}
+		return s;
+	}
+
+
 private:
-	std::vector<Species> localSpecies;
+	std::vector<Species> ancientSpecies;
+	int wellNumber;
 };
 
 
@@ -64,37 +97,58 @@ public:
 		continents = new Continent[numberOfContinents];
 	}
 
+
 	void printWorldInfo()
 	{
-		printf("The planet known as %s is comprised of %d continents.\n", planetName.c_str(), numberOfContinents);
-		printf("These continents are ");
+		printf("\n Planet: %s\n\n Continents:\n  ", planetName.c_str());
 
-		for (int i = 0; i < numberOfContinents - 1; i++)
+		for (int i = 0; i < numberOfContinents; i++)
 		{
-			printf("%d, ", continents[i].continentName);
+			printf("Name: %d\n  ", continents[i].continentName);
+			printf("%s \n  ", continents[i].s_AncientInfo().c_str());
+
+			printf("\n");
 		}
-		printf("and %d.\n", continents[numberOfContinents - 1].continentName);
 	}
+
 
 	void generatePreHistory() {
 
 		std::vector<Species> ancientSpecies;
+		std::vector<Species> humanoids;
 
 		// find all ancient species
 		for (int i = 0; i < g_Species.size(); i++)
 		{
-			if (g_Species[i].type == CreatureType::Ancient)
-				ancientSpecies.push_back(g_Species[i]);
+			switch (g_Species[i].type)
+			{
+				case CreatureType::Ancient:
+				{
+					ancientSpecies.push_back(g_Species[i]);
+					break;
+				}
+
+				case CreatureType::Humanoid:
+				{
+					humanoids.push_back(g_Species[i]);
+					break;
+				}
+				default:
+					break;
+			}
 		}
 
-		// randomly select which continents have them
+		// Add species and towns to continents
 		for (int i = 0; i < continentNumber; i++) {
 			continents[i].addLocalSpecies(ancientSpecies, RandomRange(0, 3));
+			continents[i].addPlace(humanoids, RandomRange(1, 5));
 		}
 	}
 
+
 private:
 	std::string planetName;
+
 	int numberOfContinents;
 	RandomRange* continentsRange;
 	Continent* continents;

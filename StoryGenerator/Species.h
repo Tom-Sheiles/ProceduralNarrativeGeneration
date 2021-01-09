@@ -6,7 +6,6 @@
 #include "Util.h"
 
 
-
 struct Species {
 	std::string name;
 	CreatureType type;
@@ -20,11 +19,19 @@ struct Species {
 	}
 };
 
+
 std::vector<Species> g_Species = {
 	{"Dragon", CreatureType::Ancient},
 	{"Elemental", CreatureType::Ancient},
-	{"Human", CreatureType::Humanoid}
+	{"Human", CreatureType::Humanoid},
+	{"Night Elf", CreatureType::Humanoid},
+	{"High Elf", CreatureType::Humanoid},
+	{"Orc", CreatureType::Humanoid},
+	{"Dwarf", CreatureType::Humanoid},
+	{"Troll", CreatureType::Humanoid},
+	{"Goblin", CreatureType::Humanoid}
 };
+
 
 void printSpeciesVector(const std::vector<Species> v)
 {
