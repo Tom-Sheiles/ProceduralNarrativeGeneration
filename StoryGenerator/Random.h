@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include <cstdlib>
 
 struct RandomRange { 
@@ -24,4 +25,9 @@ bool randomPercent(float threshold)
 {
 	float r = randomFloat(0, 1);
 	return r >= threshold;
+}
+
+template<typename T> T selectRandom(std::vector<T> v)
+{
+	return v[randomInt(RandomRange(0, v.size()))];
 }

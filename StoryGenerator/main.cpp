@@ -12,5 +12,5 @@ int main()
 	Planet mainPlanet(2, 4);
 	mainPlanet.generatePreHistory();
 
-	mainPlanet.printWorldInfo();
+	//mainPlanet.printWorldInfo();
 }

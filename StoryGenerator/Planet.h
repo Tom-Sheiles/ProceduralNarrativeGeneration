@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <stdio.h>
 #include <string>
@@ -6,18 +7,16 @@
 #include "GlobalVariables.h"
 #include "Species.h"
 #include "Util.h"
-#pragma once
+#include "Place.h"
 
-class Place {
-	// should have subtypes such as city
-};
+std::string continentNames[] = { "Kalimdor", "The Eastern Kingdom", "Panderia", "Ernartiea", "Calderia", "Shalderi", "Tamriel" };
 
 class Continent {
 public:
-	int continentName;
+	std::string continentName;
 
 	Continent() {
-		continentName = ++continentNumber;
+		continentName = continentNames[randomInt(RandomRange(0, 7))];
 		this->wellNumber = 0;
 	}
 
@@ -57,7 +56,15 @@ public:
 
 	void addPlace(std::vector <Species> species, RandomRange numberOfPlaces)
 	{
+		std::cout << continentName << ": \n";
+		int r_numberOfPlaces = randomInt(numberOfPlaces);
+		for (int i = 0; i < r_numberOfPlaces; i++)
+		{
+			int s = randomInt(RandomRange(0, species.size()));
+			Place newPlace(selectRandom(species));
 
+			newPlace.printPlace();
+		}
 	}
 
 
@@ -80,6 +87,8 @@ public:
 private:
 	std::vector<Species> ancientSpecies;
 	int wellNumber;
+
+	std::vector<Place> places;
 };
 
 
@@ -104,10 +113,7 @@ public:
 
 		for (int i = 0; i < numberOfContinents; i++)
 		{
-			printf("Name: %d\n  ", continents[i].continentName);
-			printf("%s \n  ", continents[i].s_AncientInfo().c_str());
-
-			printf("\n");
+			printf("Name: %s\n  ", continents[i].continentName.c_str());
 		}
 	}
 
@@ -139,9 +145,9 @@ public:
 		}
 
 		// Add species and towns to continents
-		for (int i = 0; i < continentNumber; i++) {
+		for (int i = 0; i < numberOfContinents; i++) {
 			continents[i].addLocalSpecies(ancientSpecies, RandomRange(0, 3));
-			continents[i].addPlace(humanoids, RandomRange(1, 5));
+			continents[i].addPlace(humanoids, RandomRange(0, 3));
 		}
 	}
 
