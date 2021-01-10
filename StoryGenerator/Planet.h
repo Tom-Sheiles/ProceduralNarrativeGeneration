@@ -9,7 +9,7 @@
 #include "Util.h"
 #include "Place.h"
 
-std::string continentNames[] = { "Kalimdor", "The Eastern Kingdom", "Panderia", "Ernartiea", "Calderia", "Shalderi", "Tamriel" };
+std::string continentNames[] = { "Kalimdor", "The Eastern Kingdoms", "Panderia", "Ernartiea", "Calderia", "Shalderi", "Tamriel" };
 
 class Continent {
 public:
@@ -21,7 +21,7 @@ public:
 	}
 
 
-	void addLocalSpecies(std::vector<Species> species, RandomRange numberOfSpecies)
+	std::vector<Species> addLocalSpecies(std::vector<Species> species, RandomRange numberOfSpecies)
 	{
 		// Ancient Species
 
@@ -44,6 +44,8 @@ public:
 		}
 
 		this->wellNumber = wellNumber;
+
+		return ancientSpecies;
 	}
 
 	// TODO: Finish functionality for place generation that allows for random towns, cities and villages to form on continents.
@@ -54,33 +56,46 @@ public:
 	//       by steering groups towards conflicts and maximizes understandability by reducing the chance that multiple large scale stories
 	//       can happen at the same time.
 
-	void addPlace(std::vector <Species> species, RandomRange numberOfPlaces)
+	std::vector<Place> addPlace(std::vector <Species> species, RandomRange numberOfPlaces)
 	{
-		std::cout << continentName << ": \n";
 		int r_numberOfPlaces = randomInt(numberOfPlaces);
 		for (int i = 0; i < r_numberOfPlaces; i++)
 		{
 			int s = randomInt(RandomRange(0, species.size()));
 			Place newPlace(selectRandom(species));
-
-			newPlace.printPlace();
+			places.push_back(newPlace);
+			//newPlace.printPlace();
 		}
+		return places;
 	}
 
 
-	std::string s_AncientInfo()
-	{
-		std::string s = "";
+	void printContinent() {
+
+		std::cout << " " << continentName << ":";
 		
 		if (ancientSpecies.size() > 0) {
-			s += "Ancients: ";
+			std::cout << "\n    Ancients: \n       ";
 			for (int i = 0; i < ancientSpecies.size(); i++)
 			{
-				s += ancientSpecies[i].name + " ";
+				std::cout << ancientSpecies[i].name << "\n       ";
 			}
-			if (wellNumber > 0) s += " has a magical energy permiating it";
 		}
-		return s;
+
+		if (wellNumber > 1)
+			std::cout << "\n    A magical essence permiates this land";
+
+		if (places.size() > 0)
+		{
+			std::cout << "\n    Settlements: \n        ";
+			for (int i = 0; i < places.size(); i++)
+			{
+				std::cout << places[i].name << " a " << places[i].majorDemographic.name << " " << s_GetPlaceType(places[i].placeType);
+				std::cout << "\n        ";
+			}
+		}
+
+		std::cout << "\n";
 	}
 
 
@@ -146,9 +161,17 @@ public:
 
 		// Add species and towns to continents
 		for (int i = 0; i < numberOfContinents; i++) {
-			continents[i].addLocalSpecies(ancientSpecies, RandomRange(0, 3));
-			continents[i].addPlace(humanoids, RandomRange(0, 3));
+			globalAncients = continents[i].addLocalSpecies(ancientSpecies, RandomRange(0, 3));
+			globalPlaces =  continents[i].addPlace(humanoids, RandomRange(0, 3));
+
+			continents[i].printContinent();
 		}
+	}
+
+
+	void progressWorldState()
+	{
+
 	}
 
 
@@ -160,4 +183,7 @@ private:
 	Continent* continents;
 
 	RandomRange* ancientSpeciesRange;
+
+	std::vector<Species> globalAncients;
+	std::vector<Place> globalPlaces;
 };

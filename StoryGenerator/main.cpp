@@ -12,5 +12,10 @@ int main()
 	Planet mainPlanet(2, 4);
 	mainPlanet.generatePreHistory();
 
-	//mainPlanet.printWorldInfo();
+	while (true)
+	{
+		mainPlanet.progressWorldState();
+
+		std::cin.ignore(1);
+	}
 }

@@ -29,7 +29,8 @@ std::vector<Species> g_Species = {
 	{"Orc", CreatureType::Humanoid},
 	{"Dwarf", CreatureType::Humanoid},
 	{"Troll", CreatureType::Humanoid},
-	{"Goblin", CreatureType::Humanoid}
+	{"Goblin", CreatureType::Humanoid},
+	{"Demon", CreatureType::Monster}
 };
 
 

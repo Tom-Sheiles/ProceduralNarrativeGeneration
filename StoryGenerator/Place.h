@@ -16,6 +16,6 @@ public:
 	}
 
 	void printPlace() {
-		std::cout << "Name: " << name << " Demographic: " << majorDemographic.name << " " << s_GetPlaceType(placeType) << "\n";
+		std::cout << "Name: " << name << " Type: " << majorDemographic.name << " " << s_GetPlaceType(placeType) << "\n";
 	}
 };
